@@ -139,17 +139,17 @@ jobs:
 
 
 
-  # Deploy Apigee Config (Apigee [Config] Maven plugin)
-      - name: mvn deploy cfg edge
-        if: env.API_VERSION == 'apigeeapi'
-        run:  |
-          sed -i "s/target_apigee_env/$APIGEE_ENV/g" ./EdgeConfig/edge.json
-          mvn install -q -Papigeeapi -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dapigee.username=$APIGEE_CREDS_USR -Dapigee.password=$APIGEE_CREDS_PSW -Dapigee.config.file=./EdgeConfig/edge.json -Dapigee.config.options=update
+#   # Deploy Apigee Config (Apigee [Config] Maven plugin)
+#       - name: mvn deploy cfg edge
+#         if: env.API_VERSION == 'apigeeapi'
+#         run:  |
+#           sed -i "s/target_apigee_env/$APIGEE_ENV/g" ./EdgeConfig/edge.json
+#           mvn install -q -Papigeeapi -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dapigee.username=$APIGEE_CREDS_USR -Dapigee.password=$APIGEE_CREDS_PSW -Dapigee.config.file=./EdgeConfig/edge.json -Dapigee.config.options=update
 
-      - name: mvn deploy config xhybrid
-        if: env.API_VERSION == 'googleapi'
-        run:  |
-          mvn install -q -Pgoogleapi -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dapigee.config.options=update
+#       - name: mvn deploy config xhybrid
+#         if: env.API_VERSION == 'googleapi'
+#         run:  |
+#           mvn install -P eval-Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dapigee.config.options=update
 
 
   # Package & Deploy Apigee proxy (Apigee [Deploy] Maven plugin)
@@ -165,7 +165,7 @@ jobs:
 
       - name: mvn deploy proxy xhybrid
         if: env.API_VERSION == 'googleapi'
-        run: mvn apigee-enterprise:deploy -q -Pgoogleapi -Denv=$APIGEE_ENV -Dsa=sa.json -Dorg=$APIGEE_ORG -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX  
+        run: mvn apigee-enterprise:deploy -P eval -Denv=$APIGEE_ENV -Dsa=sa.json -Dorg=$APIGEE_ORG -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX  
 
 
 
