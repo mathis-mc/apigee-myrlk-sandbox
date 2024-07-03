@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" name="AM-Overwrite-Payload">
+  <Set>
+    <Payload contentType="application/json">{ "status" : 42, "python": {response.content}, "suffix": {proxy.pathsuffix}, "verb": {response.status.code} }</Payload>
+  </Set>
+  <AssignTo>response</AssignTo>
+</AssignMessage>

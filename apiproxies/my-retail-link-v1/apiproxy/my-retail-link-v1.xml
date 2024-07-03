@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="30" name="my-retail-link-v1">
+  <DisplayName/>
+  <Description/>
+  <CreatedAt>1719934451104</CreatedAt>
+  <LastModifiedAt>1719934451104</LastModifiedAt>
+  <BasePaths>/my-retail-link/v1</BasePaths>
+  <Policies>
+    <Policy>SA-LimitTraffic</Policy>
+    <Policy>SC-CloudFunctionCallout</Policy>
+    <Policy>AM-Overwrite-Payload</Policy>
+    <Policy>EV-ExtractJSON</Policy>
+    <Policy>CORS</Policy>
+    <Policy>RF-InvalidPayload</Policy>
+    <Policy>RF-InvalidRequest</Policy>
+    <Policy>RF-TargetServerError</Policy>
+  </Policies>
+  <ProxyEndpoints>
+    <ProxyEndpoint>default</ProxyEndpoint>
+  </ProxyEndpoints>
+  <TargetEndpoints>
+    <TargetEndpoint>TargetEndpoint-1</TargetEndpoint>
+  </TargetEndpoints>
+</APIProxy>

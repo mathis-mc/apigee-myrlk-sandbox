@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+  <Description/>
+  <FaultRules>
+    <FaultRule name="FR-TargetServerFault">
+      <Step>
+        <Name>RF-TargetServerError</Name>
+      </Step>
+    </FaultRule>
+  </FaultRules>
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>SA-LimitTraffic</Name>
+      </Step>
+      <Step>
+        <Name>CORS</Name>
+      </Step>
+    </Request>
+    <Response/>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+  <Flows>
+    <Flow name="csv-save">
+      <Description/>
+      <Request>
+        <Step>
+          <Name>EV-ExtractJSON</Name>
+        </Step>
+        <Step>
+          <Name>RF-InvalidRequest</Name>
+          <Condition>(id = null) or (data = null)</Condition>
+        </Step>
+        <Step>
+          <Name>RF-InvalidPayload</Name>
+          <Condition>(username = null) or (workbook = null) or (sheet = null)</Condition>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>RF-TargetServerError</Name>
+          <Condition>(response.status.code GreaterThan "200")</Condition>
+        </Step>
+        <Step>
+          <Name>AM-Overwrite-Payload</Name>
+          <Condition>(id != null) and (data != null)</Condition>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/csv-save") and (request.verb = "POST")</Condition>
+    </Flow>
+  </Flows>
+  <HTTPProxyConnection>
+    <BasePath>/my-retail-link/v1</BasePath>
+    <Properties/>
+    <VirtualHost>default</VirtualHost>
+  </HTTPProxyConnection>
+  <RouteRule name="default">
+    <TargetEndpoint>TargetEndpoint-1</TargetEndpoint>
+  </RouteRule>
+</ProxyEndpoint>

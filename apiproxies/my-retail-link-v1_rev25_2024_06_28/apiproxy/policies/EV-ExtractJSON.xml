@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables continueOnError="false" enabled="true" name="EV-ExtractJSON">
+  <JSONPayload>
+    <Variable name="id">
+      <JSONPath>$.id</JSONPath>
+    </Variable>
+    <Variable name="data">
+      <JSONPath>$.data</JSONPath>
+    </Variable>
+    <Variable name="username">
+      <JSONPath>$.data.username</JSONPath>
+    </Variable>
+    <Variable name="workbook">
+      <JSONPath>$.data.workbook</JSONPath>
+    </Variable>
+    <Variable name="sheet">
+      <JSONPath>$.data.workbook.sheet</JSONPath>
+    </Variable>
+  </JSONPayload>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Source clearPayload="false">request.content</Source>
+</ExtractVariables>

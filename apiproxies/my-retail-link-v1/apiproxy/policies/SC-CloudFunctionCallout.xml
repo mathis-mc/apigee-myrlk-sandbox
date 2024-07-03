@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceCallout continueOnError="false" enabled="true" name="SC-CloudFunctionCallout">
+  <Request clearPayload="true" variable="myRequest">
+    <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+    <Set>
+      <Headers>
+        <Header name="Authorization">{request.header.Authorization}</Header>
+      </Headers>
+    </Set>
+  </Request>
+  <Response>calloutResponse</Response>
+  <HTTPTargetConnection>
+    <URL>https://europe-west1-plateforme-fournisseurs-dev.cloudfunctions.net/tableau-export-endpoint-dev</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>
