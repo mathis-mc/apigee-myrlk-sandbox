@@ -7,9 +7,6 @@
       <Step>
         <Name>SA-LimitTraffic</Name>
       </Step>
-      <Step>
-        <Name>CORS</Name>
-      </Step>
     </Request>
     <Response/>
   </PreFlow>
@@ -36,7 +33,7 @@
       <Response>
         <Step>
           <Name>RF-TargetServerError</Name>
-          <Condition>(response.status.code GreaterThan "200")</Condition>
+          <Condition>(response.status.code GreaterThan 200)</Condition>
         </Step>
         <Step>
           <Name>AM-Overwrite-Payload</Name>
