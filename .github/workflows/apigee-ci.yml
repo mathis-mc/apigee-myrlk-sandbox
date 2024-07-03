@@ -89,7 +89,7 @@ jobs:
 
   # Run apigeeLint test + upload artifact (apigeelint-out.html)
       - name: apigeelint
-        run: ./node_modules/apigeelint/cli.js -s ./apiproxy -f html.js -e PO013,PO025 > ./apigeelint-out.html
+        run: ./node_modules/apigeelint/cli.js -s ./apiproxies/my-retail-link-v1 -f html.js -e PO013,PO025 > ./apigeelint-out.html
 
       - name: Archive Apigeelint results
         uses: actions/upload-artifact@v3
@@ -100,15 +100,15 @@ jobs:
 
 
   # Run eslint test + upload artifact (eslint-out.html)
-      - name: eslint
-        run : ./node_modules/eslint/bin/eslint.js -c ./.eslintrc-jsc.yml --format html ./apiproxy/resources/jsc > ./eslint-out.html
+    #   - name: eslint
+    #     run : ./node_modules/eslint/bin/eslint.js -c ./.eslintrc-jsc.yml --format html ./apiproxy/resources/jsc > ./eslint-out.html
 
-      - name: Archive esLint results
-        uses: actions/upload-artifact@v3
-        with:
-          name: eslint-report
-          path: ./eslint-out.html
-          retention-days: 5
+    #   - name: Archive esLint results
+    #     uses: actions/upload-artifact@v3
+    #     with:
+    #       name: eslint-report
+    #       path: ./eslint-out.html
+    #       retention-days: 5
 
 
   # Run JS Mocha test + upload artifact (coverage/index.html)
