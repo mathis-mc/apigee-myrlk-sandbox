@@ -170,7 +170,7 @@ jobs:
       - name: mvn deploy proxy xhybrid
         working-directory: ./apiproxies/my-retail-link-v1
         if: env.API_VERSION == 'eval'
-        run: mvn apigee-enterprise:deploy -P eval -Denv=$APIGEE_ENV -Dfile=sa.json -Dorg=$APIGEE_ORG -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX  
+        run: mvn apigee-enterprise:deploy -P eval -Denv=$APIGEE_ENV -Dsa=sa.json -Dorg=$APIGEE_ORG -Ddeployment.suffix=$APIGEE_DEPLOYMENT_SUFFIX  
 
 
 
