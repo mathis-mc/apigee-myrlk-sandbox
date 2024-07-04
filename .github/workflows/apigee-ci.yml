@@ -76,7 +76,7 @@ jobs:
 
   # Run apigeeLint test + upload artifact (apigeelint-out.html)
       - name: apigeelint
-        run: ./node_modules/apigeelint/cli.js -s ./apiproxies/my-retail-link-v1 -f html.js -e PO013,PO025
+        run: ./node_modules/apigeelint/cli.js -s ./apiproxies/helloworld -f html.js -e PO013,PO025
 
   # Setup Maven & Maven Cache
       - name: Set up JDK 1.8
@@ -95,7 +95,7 @@ jobs:
 
   # Generate SA key file from secret variable
       - name: Generate SA key file
-        working-directory: ./apiproxies/my-retail-link-v1
+        working-directory: ./apiproxies/helloworld
         if: env.API_VERSION == 'dev'
         run: | 
           echo $GCP_SERVICE_ACCOUNT > sa.json
@@ -104,6 +104,6 @@ jobs:
 
 #   # Deploy Apigee Config (Apigee Maven plugin)
       - name: mvn configure, package, import, deploy, and test bundle
-        working-directory: ./apiproxies/my-retail-link-v1
+        working-directory: ./apiproxies/helloworld
         run:  mvn install -Pdev -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dfile=sa.json
 
