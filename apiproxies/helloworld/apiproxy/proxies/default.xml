@@ -15,6 +15,9 @@
       <Step>
         <Name>XMLtoJSON</Name>
       </Step>
+      <Step>
+        <Name>AM-Hello-User</Name>
+      </Step>
     </Response>
   </PreFlow>
   <HTTPProxyConnection>

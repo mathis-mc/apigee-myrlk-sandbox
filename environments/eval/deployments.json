@@ -1,7 +1,7 @@
 {
   "proxies": [
     {
-      "name": "my-retail-link-v1_rev25_2024_06_28"
+      "name": "my-retail-link-v1"
     }
   ],
   "sharedflows": []

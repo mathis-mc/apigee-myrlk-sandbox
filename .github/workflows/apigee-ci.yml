@@ -4,11 +4,11 @@ name: Apigee CI with Maven
 on: push
   
 env:
-  API_VERSION: eval 
+  API_VERSION: dev 
 
   # Default Target Apigee Organization et environment (can be also be dynamically defined in [Set Variables *] steps)
   DEFAULT_APIGEE_ORG: c-sandbox-apigee
-  DEFAULT_APIGEE_ENV: eval
+  DEFAULT_APIGEE_ENV: dev
   TEST_HOST: 34.120.206.66.dev.io
 
   # Retrieve Apigee UserID and password from repository settings (secrets)
@@ -96,7 +96,7 @@ jobs:
   # Generate SA key file from secret variable
       - name: Generate SA key file
         working-directory: ./apiproxies/my-retail-link-v1
-        if: env.API_VERSION == 'eval'
+        if: env.API_VERSION == 'dev'
         run: | 
           echo $GCP_SERVICE_ACCOUNT > sa.json
 
@@ -105,5 +105,5 @@ jobs:
 #   # Deploy Apigee Config (Apigee Maven plugin)
       - name: mvn configure, package, import, deploy, and test bundle
         working-directory: ./apiproxies/my-retail-link-v1
-        run:  mvn install -Peval -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dfile=sa.json
+        run:  mvn install -Pdev -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dfile=sa.json
 
