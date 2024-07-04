@@ -10,7 +10,6 @@
     <Policy>SC-CloudFunctionCallout</Policy>
     <Policy>AM-Overwrite-Payload</Policy>
     <Policy>EV-ExtractJSON</Policy>
-    <Policy>CORS</Policy>
     <Policy>RF-InvalidPayload</Policy>
     <Policy>RF-InvalidRequest</Policy>
     <Policy>RF-TargetServerError</Policy>

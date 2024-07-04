@@ -6,7 +6,7 @@
     <Set>
       <Headers/>
       <Payload contentType="application/json">
-        {"reason": "Cloud function could not be called", "statusCode": {response.status.code}, "cloudFunctionMessage": {response.content}}
+        {"reason": "Cloud function could not be called", "statusCode": {response.status.code}, "cloudFunctionMessage": "{response.content}"}
       </Payload>
       <StatusCode>400</StatusCode>
       <ReasonPhrase>Bad Request</ReasonPhrase>
