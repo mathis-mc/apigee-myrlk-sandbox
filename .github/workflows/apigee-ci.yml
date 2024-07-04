@@ -148,6 +148,7 @@ jobs:
 #           mvn install -q -Papigeeapi -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dapigee.username=$APIGEE_CREDS_USR -Dapigee.password=$APIGEE_CREDS_PSW -Dapigee.config.file=./EdgeConfig/edge.json -Dapigee.config.options=update
 
       - name: mvn deploy config xhybrid
+        working-directory: ./apiproxies/my-retail-link-v1
         if: env.API_VERSION == 'eval'
         run:  |
           mvn install -P eval -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dapigee.config.options=update
