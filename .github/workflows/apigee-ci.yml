@@ -151,7 +151,7 @@ jobs:
         working-directory: ./apiproxies/my-retail-link-v1
         if: env.API_VERSION == 'eval'
         run:  |
-          mvn install -P eval -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dapigee.config.options=update
+          mvn install -P eval -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dfile=sa.json -Dapigee.config.options=update
 
 
   # Package & Deploy Apigee proxy (Apigee [Deploy] Maven plugin)
