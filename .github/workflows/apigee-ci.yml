@@ -121,9 +121,6 @@ jobs:
       - name: Install Apigee CLI
         run: |
           curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
-      - name: setup path
-        run: |
-          export PATH=$PATH:$HOME/.apigeecli/bin/apigeecli
       - name: Setup Prefs
         run: |
           $HOME/.apigeecli/bin/apigeecli prefs set --nocheck=true -o $APIGEE_ORG
@@ -136,6 +133,22 @@ jobs:
         working-directory: ./apiproxies/api-validation
         run: |
           $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
+      - name: Get Target Server
+        id: GetTargetServer
+        working-directory: ./apiproxies/api-validation
+        run: apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV
+      - name: output
+        run: echo "${{ steps.GetTargetServer.outputs }}"
+      - name: outcome
+        run: echo "${{ steps.GetTargetServer.outcome }}"
+      - name: Create Target Server
+        if : ${{ steps.GetTargetServer.outputs?.error?.code == 404 }}
+        working-directory: ./apiproxies/api-validation
+        run: apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
+      - name: Update Target Server
+        if : ${{ steps.GetTargetServer.outputs?.error?.code != 404 }}
+        working-directory: ./apiproxies/api-validation
+        run: apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
   automated-api-tests:
     if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest

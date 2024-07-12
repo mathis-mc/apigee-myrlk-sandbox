@@ -5,5 +5,12 @@
     "description": "HTTPBin",
     "host": "httpbin.org",
     "port": 80
+  },
+  {
+    "enabled": true,
+    "name": "Google",
+    "description": "Google",
+    "host": "google.com",
+    "port": 80
   }
 ]

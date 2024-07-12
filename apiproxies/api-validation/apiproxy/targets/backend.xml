@@ -7,6 +7,9 @@
     </Request>
   </PreFlow>
   <HTTPTargetConnection>
-    <URL>https://google.com</URL>
+    <LoadBalancer>
+      <Server name="Google"/>
+    </LoadBalancer>
+    <Path>/</Path>
   </HTTPTargetConnection>
 </TargetEndpoint>
