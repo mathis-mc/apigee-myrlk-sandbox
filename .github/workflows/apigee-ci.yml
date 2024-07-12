@@ -115,10 +115,12 @@ jobs:
       - name: Install Apigee CLI
         run: |
           curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
+      - name: setup path
+        run: |
           export PATH=$PATH:$HOME/.apigeecli/bin
       - name: Setup Prefs
         run: |
-          apigeecli prefs set --nocheck=true -o $DEFAULT_APIGEE_ORG
+          apigeecli prefs set --nocheck=true -o $DEFAULT_APIGEE_ORG |
           apigeecli token cache --metadata-token
       # Generate SA key file from secret variable
       - name: Generate SA key file
