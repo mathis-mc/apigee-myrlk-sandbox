@@ -140,16 +140,12 @@ jobs:
         working-directory: ./apiproxies/api-validation
         run: | 
           $HOME/.apigeecli/bin/apigeecli targetservers get -n Gooogle -e $DEFAULT_APIGEE_ENV -a sa.json --no-output >> $GITHUB_OUTPUT
-      - name: Dump output
-        env:
-          STRATEGY_CONTEXT: ${{ toJSON(steps.GetTargetServer.outputs) }}
-        run: echo "$STRATEGY_CONTEXT"
       - name: Create Target Server
-        if : ${{env.STRATEGY_CONTEXT }} == ""
+        if : failure()
         working-directory: ./apiproxies/api-validation
         run: $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
       - name: Update Target Server
-        if : startsWith(${{ env.STRATEGY_CONTEXT }}, "Error")
+        if : success()
         working-directory: ./apiproxies/api-validation
         run: $HOME/.apigeecli/bin/apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
   automated-api-tests:
