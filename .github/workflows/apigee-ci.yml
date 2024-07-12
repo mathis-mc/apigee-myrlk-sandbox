@@ -145,7 +145,7 @@ jobs:
       - name: Dump output
         env:
           STRATEGY_CONTEXT: ${{ toJSON(steps.GetTargetServer.outputs) }}
-        run: echo "$STRATEGY_CONTEXT"
+        run: echo "$STRATEGY_CONTEXT.name"
       # - name: Create Target Server
       #   if : ${{ steps.GetTargetServer.outputs?.error?.code == 404 }}
       #   working-directory: ./apiproxies/api-validation
