@@ -9,5 +9,6 @@
     <TimeoutInSec>600</TimeoutInSec>
   </ExpirySettings>
   <SkipCacheLookup>request.verb != "GET"</SkipCacheLookup>
+  <ExcludeErrorResponse>true</ExcludeErrorResponse>
   <SkipCachePopulation>request.verb != "GET"</SkipCachePopulation>
 </ResponseCache>
