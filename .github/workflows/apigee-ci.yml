@@ -162,20 +162,15 @@ jobs:
         if : ${{steps.GetAppDeveloper.outcome == 'success'}}
         working-directory: ./apiproxies/api-validation
         run: $HOME/.apigeecli/bin/apigeecli developers update -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
-      - name: Get App
-        continue-on-error: true
-        id: GetApp
-        working-directory: ./apiproxies/api-validation
-        run: | 
-          $HOME/.apigeecli/bin/apigeecli apps get -n TotoApp  -a sa.json --no-output >> $GITHUB_OUTPUT
       - name: Create App
-        if : ${{steps.GetApp.outcome == 'failure'}}
+        id: CreateApp
         working-directory: ./apiproxies/api-validation
+        continue-on-error: true
         run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json
-      - name: Update Target Server
-        if : ${{steps.GetApp.outcome == 'success'}}
+      - name: Update App
+        if : ${{steps.CreateApp.outcome == 'failure'}}
         working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli apps update -n TotoApp -e toto@gmail.com -a sa.json
+        run: $HOME/.apigeecli/bin/apigeecli apps update -n "Toto App" -e toto@gmail.com -a sa.json
   automated-api-tests:
     if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest
