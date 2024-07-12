@@ -166,7 +166,7 @@ jobs:
         id: CreateApp
         working-directory: ./apiproxies/api-validation
         continue-on-error: true
-        run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json
+        run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
       - name: Update App
         if : ${{steps.CreateApp.outcome == 'failure'}}
         working-directory: ./apiproxies/api-validation
