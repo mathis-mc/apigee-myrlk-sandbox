@@ -23,6 +23,7 @@ env:
   APIGEE_ORG: ''
   APIGEE_ENV: ''
   APIGEE_DEPLOYMENT_SUFFIX: ''
+  STRATEGY_CONTEXT: ''
   
 
 jobs:
@@ -143,11 +144,11 @@ jobs:
           STRATEGY_CONTEXT: ${{ toJSON(steps.GetTargetServer.outputs) }}
         run: echo "$STRATEGY_CONTEXT"
       - name: Create Target Server
-        if : startsWith(${{ steps.GetTargetServer.outputs }}, "")
+        if : startsWith(${{env.STRATEGY_CONTEXT}}, "")
         working-directory: ./apiproxies/api-validation
-        run: apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
+        run: $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
       - name: Update Target Server
-        if : startsWith(${{ steps.GetTargetServer.outputs }}, "Error")
+        if : startsWith(${{ env.STRATEGY_CONTEXT }}, "Error")
         working-directory: ./apiproxies/api-validation
         run: $HOME/.apigeecli/bin/apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
   automated-api-tests:
