@@ -137,23 +137,19 @@ jobs:
         id: GetTargetServer
         working-directory: ./apiproxies/api-validation
         run: | 
-          {
-          echo 'JSON_RESPONSE<<EOF'
-          $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV -a sa.json
-          echo EOF
-          } >> $GITHUB_OUTPUT
+          $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV -a sa.json --no-output >> $GITHUB_OUTPUT
       - name: Dump output
         env:
-          STRATEGY_CONTEXT: ${{ toJSON(steps.GetTargetServer.outputs.name) }}
+          STRATEGY_CONTEXT: ${{ toJSON(steps.GetTargetServer.outputs) }}
         run: echo "$STRATEGY_CONTEXT"
       # - name: Create Target Server
       #   if : ${{ steps.GetTargetServer.outputs?.error?.code == 404 }}
       #   working-directory: ./apiproxies/api-validation
       #   run: apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
-      # - name: Update Target Server
-      #   if : ${{ steps.GetTargetServer.outputs?.error?.code != 404 }}
-      #   working-directory: ./apiproxies/api-validation
-      #   run: apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
+      - name: Update Target Server
+        if : startsWith(${{ $STRATEGY_CONTEXT }}, "Error")
+        working-directory: ./apiproxies/api-validation
+        run: apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
   automated-api-tests:
     if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest
