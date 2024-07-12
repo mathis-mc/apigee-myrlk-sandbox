@@ -147,7 +147,7 @@ jobs:
       #   working-directory: ./apiproxies/api-validation
       #   run: apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
       - name: Update Target Server
-        if : startsWith(${{ $STRATEGY_CONTEXT }}, "Error")
+        if : startsWith(${{ steps.GetTargetServer.outputs }}, "Error")
         working-directory: ./apiproxies/api-validation
         run: apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
   automated-api-tests:
