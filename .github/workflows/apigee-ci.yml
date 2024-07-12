@@ -112,6 +112,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set Variables
+        run: |
+          echo "APIGEE_DEPLOYMENT_SUFFIX=$(echo $GITHUB_REF | sed 's/.*\///')" >> $GITHUB_ENV
+          echo "AUTHOR_EMAIL=$(echo $GITHUB_ACTOR)" >> $GITHUB_ENV
+          echo "APIGEE_ORG=$(echo $DEFAULT_APIGEE_ORG)" >> $GITHUB_ENV
+          echo "APIGEE_ENV=$(echo $DEFAULT_APIGEE_ENV)" >> $GITHUB_ENV
       - name: Install Apigee CLI
         run: |
           curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
@@ -120,7 +126,7 @@ jobs:
           export PATH=$PATH:$HOME/.apigeecli/bin/apigeecli
       - name: Setup Prefs
         run: |
-          $HOME/.apigeecli/bin/apigeecli prefs set --nocheck=true -o $DEFAULT_APIGEE_ORG |
+          $HOME/.apigeecli/bin/apigeecli prefs set --nocheck=true -o $APIGEE_ORG |
           $HOME/.apigeecli/bin/apigeecli token cache --metadata-token
       # Generate SA key file from secret variable
       - name: Generate SA key file
