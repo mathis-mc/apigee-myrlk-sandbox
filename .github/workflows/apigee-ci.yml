@@ -8,6 +8,7 @@ env:
 
   # Default Target Apigee Organization et environment (can be also be dynamically defined in [Set Variables *] steps)
   DEFAULT_APIGEE_ORG: c-sandbox-apigee
+  DEFAULT_APIGEE_ORG_PROD: c-sandbox-apigee-prod
   DEFAULT_APIGEE_ENV: eval
   TEST_HOST: 34.120.206.66.dev.io
 
@@ -26,6 +27,7 @@ env:
 
 jobs:
   Apigee-Deploy:
+    if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest
 
     steps:
@@ -43,7 +45,7 @@ jobs:
         if: github.ref == 'refs/heads/prod'
         run: |
           echo "AUTHOR_EMAIL=$(echo $GITHUB_ACTOR)" >> $GITHUB_ENV
-          echo "APIGEE_ORG=$(echo $DEFAULT_APIGEE_ORG)" >> $GITHUB_ENV
+          echo "APIGEE_ORG=$(echo $DEFAULT_APIGEE_ORG_PROD)" >> $GITHUB_ENV
           echo "APIGEE_ENV=prod)" >> $GITHUB_ENV
   
       - name: Set Variables for branch not [Main], not [Prod]
@@ -106,8 +108,28 @@ jobs:
       - name: mvn configure, package, import, deploy, and test bundle
         working-directory: ./apiproxies/my-retail-link-v1
         run:  mvn install -Peval -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dfile=sa.json
-
+  apigee-cli-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Apigee CLI
+        run: |
+          curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
+      - name: Setup Prefs
+        run: |
+          apigeecli prefs set --nocheck=true -o $DEFAULT_APIGEE_ORG
+          apigeecli token cache --metadata-token
+      # Generate SA key file from secret variable
+      - name: Generate SA key file
+        working-directory: ./apiproxies/api-validation
+        run: | 
+          echo $GCP_SERVICE_ACCOUNT > sa.json
+      - name: Deploy API Proxy
+        working-directory: ./apiproxies/api-validation
+        run: |
+          apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
   automated-api-tests:
+    if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

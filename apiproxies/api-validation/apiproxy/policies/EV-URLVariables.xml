@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="EV-URLVariables">
+    <DisplayName>EV-URLVariables</DisplayName>
+    <URIPath>
+      <Pattern ignoreCase="true">/cd-acti/{act_code}/partner-file/{pf_number}/client/{client_id}</Pattern>
+    </URIPath>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <Source>request</Source>
+    <VariablePrefix>urirequest</VariablePrefix>
+</ExtractVariables>

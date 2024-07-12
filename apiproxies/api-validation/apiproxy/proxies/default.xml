@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>RC-CustomerInfo</Name>
+      </Step>
+    </Request>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Response>
+      <Step>
+        <Name>RC-CustomerInfo</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+  <Flows>
+    <Flow name="partnerFile">
+      <Description/>
+      <Request>
+        <Step>
+          <Name>EV-URLVariables</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/cd-acti/*/partner-file/*/client/*") and (request.verb = "GET")</Condition>
+    </Flow>
+  </Flows>
+  <Description>default</Description>
+  <HTTPProxyConnection>
+    <BasePath>/adlm-customer-data</BasePath>
+  </HTTPProxyConnection>
+  <RouteRule name="backend">
+    <TargetEndpoint>backend</TargetEndpoint>
+  </RouteRule>
+</ProxyEndpoint>

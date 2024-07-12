@@ -1,0 +1,12 @@
+<TargetEndpoint name="backend">
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>AM-Request</Name>
+      </Step>
+    </Request>
+  </PreFlow>
+  <HTTPTargetConnection>
+    <URL>https://google.com</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

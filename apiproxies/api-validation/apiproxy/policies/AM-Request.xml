@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Request">
+    <DisplayName>AM-Request</DisplayName>
+    <AssignVariable>
+        <Name>target.url</Name>
+        <Value>https://google.com/</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

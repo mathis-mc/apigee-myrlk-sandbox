@@ -9,5 +9,12 @@
     "tlsInfo": {
       "enabled": true
     }
+  },
+  {
+    "enabled": true,
+    "name": "HTTPBin",
+    "description": "HTTPBin",
+    "host": "httpbin.org",
+    "port": 80
   }
 ]

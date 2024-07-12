@@ -1,6 +1,9 @@
 {
   "proxies": [
     {
+      "name": "api-validation"
+    },
+    {
       "name": "helloworld"
     }
   ],
