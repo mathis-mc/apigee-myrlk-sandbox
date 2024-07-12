@@ -139,7 +139,7 @@ jobs:
         run: $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV -a sa.json
       - name: Dump output
         env:
-          STRATEGY_CONTEXT: ${{ toJson(steps.GetTargetServer.outputs) }}
+          STRATEGY_CONTEXT: ${{ toJSON(steps.GetTargetServer.outputs) }}
         run: echo "$STRATEGY_CONTEXT"
       # - name: Create Target Server
       #   if : ${{ steps.GetTargetServer.outputs?.error?.code == 404 }}
