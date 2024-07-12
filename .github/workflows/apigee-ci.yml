@@ -135,6 +135,7 @@ jobs:
       #   run: |
       #     $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
       - name: Get Target Server
+        continue-on-error: true
         id: GetTargetServer
         working-directory: ./apiproxies/api-validation
         run: | 
