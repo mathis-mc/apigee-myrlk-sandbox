@@ -26,7 +26,7 @@ env:
   
 
 jobs:
-  Apigee-Deploy:
+  apigee-deploy:
     if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest
 
@@ -99,13 +99,11 @@ jobs:
         working-directory: ./apiproxies/my-retail-link-v1
         run: |
           $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n my-retail-link-v1 -f ./apiproxy -a sa.json --ovr
-  apigee-cli-actions:
-    needs: "Apigee-Deploy"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Deploy API Proxy
+
+      - name: apigeelint validation
+        run: ./node_modules/apigeelint/cli.js -s ./apiproxies/api-validation -f html.js -e PO013,PO025
+
+      - name: Deploy API Proxy Validation
         working-directory: ./apiproxies/api-validation
         run: |
           $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
@@ -149,7 +147,7 @@ jobs:
         working-directory: ./apiproxies/api-validation
         continue-on-error: true
         run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
-
+        
       - name: Update App
         if : ${{steps.CreateApp.outcome == 'failure'}}
         working-directory: ./apiproxies/api-validation
