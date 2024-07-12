@@ -136,7 +136,7 @@ jobs:
       - name: Get Target Server
         id: GetTargetServer
         working-directory: ./apiproxies/api-validation
-        run: apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV
+        run: $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV
       - name: output
         run: echo "${{ steps.GetTargetServer.outputs }}"
       - name: outcome
