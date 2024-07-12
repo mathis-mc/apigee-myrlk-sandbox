@@ -138,9 +138,7 @@ jobs:
         working-directory: ./apiproxies/api-validation
         run: $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV
       - name: output
-        run: echo "${{ steps.GetTargetServer.outputs }}"
-      - name: outcome
-        run: echo "${{ steps.GetTargetServer.outcome }}"
+        run: echo "${{fromJson(steps.GetTargetServer.outputs) }}"
       # - name: Create Target Server
       #   if : ${{ steps.GetTargetServer.outputs?.error?.code == 404 }}
       #   working-directory: ./apiproxies/api-validation
