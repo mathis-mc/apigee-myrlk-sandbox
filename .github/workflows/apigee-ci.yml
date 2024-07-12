@@ -91,6 +91,13 @@ jobs:
         run: | 
           echo $GCP_SERVICE_ACCOUNT > sa.json
 
+      # Generate SA key file from secret variable
+      - name: Generate SA key file for validation
+        working-directory: ./apiproxies/api-validation
+        if: env.API_VERSION == 'eval'
+        run: | 
+          echo $GCP_SERVICE_ACCOUNT > sa.json
+
       # Deploy Apigee Config (Apigee Maven plugin)
       # - name: mvn configure, package, import, deploy, and test bundle
       #   working-directory: ./apiproxies/my-retail-link-v1
