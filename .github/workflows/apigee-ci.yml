@@ -129,17 +129,17 @@ jobs:
         working-directory: ./apiproxies/api-validation
         run: | 
           echo $GCP_SERVICE_ACCOUNT > sa.json
-      - name: Deploy API Proxy
-        working-directory: ./apiproxies/api-validation
-        run: |
-          $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
+      # - name: Deploy API Proxy
+      #   working-directory: ./apiproxies/api-validation
+      #   run: |
+      #     $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
       - name: Get Target Server
         id: GetTargetServer
         working-directory: ./apiproxies/api-validation
         run: $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV
       - name: output
         run: |
-          echo "${{ fromJson(steps.GetTargetServer.outputs) }}"
+          echo "${{ fromJSON(steps.GetTargetServer.outputs) }}"
       # - name: Create Target Server
       #   if : ${{ steps.GetTargetServer.outputs?.error?.code == 404 }}
       #   working-directory: ./apiproxies/api-validation
