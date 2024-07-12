@@ -136,7 +136,12 @@ jobs:
       - name: Get Target Server
         id: GetTargetServer
         working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV -a sa.json >> $GITHUB_OUTPUT
+        run: | 
+          {
+          echo 'JSON_RESPONSE<<EOF'
+          $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV -a sa.json
+          echo EOF
+          } >> $GITHUB_OUTPUT
       - name: Dump output
         env:
           STRATEGY_CONTEXT: ${{ toJSON(steps.GetTargetServer.outputs) }}
