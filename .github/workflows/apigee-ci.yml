@@ -126,8 +126,7 @@ jobs:
           export PATH=$PATH:$HOME/.apigeecli/bin/apigeecli
       - name: Setup Prefs
         run: |
-          $HOME/.apigeecli/bin/apigeecli prefs set --nocheck=true -o $APIGEE_ORG |
-          $HOME/.apigeecli/bin/apigeecli token cache --metadata-token
+          $HOME/.apigeecli/bin/apigeecli prefs set --nocheck=true -o $APIGEE_ORG
       # Generate SA key file from secret variable
       - name: Generate SA key file
         working-directory: ./apiproxies/api-validation
