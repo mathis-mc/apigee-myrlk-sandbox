@@ -115,6 +115,7 @@ jobs:
       - name: Install Apigee CLI
         run: |
           curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
+          export PATH=$PATH:$HOME/.apigeecli/bin
       - name: Setup Prefs
         run: |
           apigeecli prefs set --nocheck=true -o $DEFAULT_APIGEE_ORG
