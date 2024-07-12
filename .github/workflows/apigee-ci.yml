@@ -117,11 +117,11 @@ jobs:
           curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
       - name: setup path
         run: |
-          export PATH=$PATH:$HOME/.apigeecli/bin
+          export PATH=$PATH:$HOME/.apigeecli/bin/apigeecli
       - name: Setup Prefs
         run: |
-          $HOME/.apigeecli/bin prefs set --nocheck=true -o $DEFAULT_APIGEE_ORG |
-          $HOME/.apigeecli/bin token cache --metadata-token
+          $HOME/.apigeecli/bin/apigeecli prefs set --nocheck=true -o $DEFAULT_APIGEE_ORG |
+          $HOME/.apigeecli/bin/apigeecli token cache --metadata-token
       # Generate SA key file from secret variable
       - name: Generate SA key file
         working-directory: ./apiproxies/api-validation
@@ -130,7 +130,7 @@ jobs:
       - name: Deploy API Proxy
         working-directory: ./apiproxies/api-validation
         run: |
-          $HOME/.apigeecli/bin apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
+          $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
   automated-api-tests:
     if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest
