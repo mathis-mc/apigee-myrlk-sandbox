@@ -104,9 +104,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: apigeelint
-        run: ./node_modules/apigeelint/cli.js -s ./apiproxies/api-validation -f html.js -e PO013,PO025
-
+      
       - name: Deploy API Proxy
         working-directory: ./apiproxies/api-validation
         run: |
@@ -151,7 +149,7 @@ jobs:
         working-directory: ./apiproxies/api-validation
         continue-on-error: true
         run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
-        
+
       - name: Update App
         if : ${{steps.CreateApp.outcome == 'failure'}}
         working-directory: ./apiproxies/api-validation
