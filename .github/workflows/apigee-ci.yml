@@ -85,15 +85,14 @@ jobs:
         run: ./node_modules/apigeelint/cli.js -s ./apiproxies/my-retail-link-v1 -f html.js -e PO013,PO025
 
       # Generate SA key file from secret variable
-      - name: Generate SA key file
-        working-directory: ./apiproxies/my-retail-link-v1
-        if: env.API_VERSION == 'eval'
-        run: | 
-          echo $GCP_SERVICE_ACCOUNT > sa.json
+      # - name: Generate SA key file
+      #   working-directory: ./apiproxies/my-retail-link-v1
+      #   if: env.API_VERSION == 'eval'
+      #   run: | 
+      #     echo $GCP_SERVICE_ACCOUNT > sa.json
 
       # Generate SA key file from secret variable
       - name: Generate SA key file for validation
-        working-directory: ./apiproxies/api-validation
         if: env.API_VERSION == 'eval'
         run: | 
           echo $GCP_SERVICE_ACCOUNT > sa.json
@@ -102,18 +101,17 @@ jobs:
       # - name: mvn configure, package, import, deploy, and test bundle
       #   working-directory: ./apiproxies/my-retail-link-v1
       #   run:  mvn install -Peval -Dapigee.org=$APIGEE_ORG -Denv=$APIGEE_ENV -Dfile=sa.json
-      - name: Deploy API Proxy
-        working-directory: ./apiproxies/my-retail-link-v1
-        run: |
-          $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n my-retail-link-v1 -f ./apiproxy -a sa.json --ovr
+      # - name: Deploy API Proxy
+      #   working-directory: ./apiproxies/my-retail-link-v1
+      #   run: |
+      #     $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n my-retail-link-v1 -f ./apiproxy -a sa.json --ovr
 
       - name: apigeelint validation
         run: ./node_modules/apigeelint/cli.js -s ./apiproxies/api-validation -f html.js -e PO013,PO025
 
       - name: Deploy API Proxy Validation
-        working-directory: ./apiproxies/api-validation
         run: |
-          $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
+          $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f /apiproxies/api-validation/apiproxy -a sa.json --ovr
           
       # - name: Get Target Server
       #   continue-on-error: true
@@ -133,7 +131,6 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
 
       - name: Create Target Servers Iteration
-        working-directory: ./apiproxies/api-validation
         run: cat config.json | jq -c '.[] | select (.name == "targetServers")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
@@ -155,7 +152,6 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli developers create -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
 
       - name: Create App Developers Iteration
-        working-directory: ./apiproxies/api-validation
         run: cat config.json | jq -c '.[] | select (.name == "developers")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
@@ -176,8 +172,6 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli products create -n "Toto Product" -m "Toto Product" -e $DEFAULT_APIGEE_ENV -p api-validation -f auto -a sa.json
         
       - name: Create App Products Iteration
-        continue-on-error: true
-        working-directory: ./apiproxies/api-validation
         run: cat config.json | jq -c '.[] | select (.name == "appProducts")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
@@ -194,8 +188,6 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
       
       - name: Create Apps Iteration
-        continue-on-error: true
-        working-directory: ./apiproxies/api-validation
         run: cat config.json | jq -c '.[] | select (.name == "apps")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
