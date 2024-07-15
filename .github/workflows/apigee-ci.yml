@@ -132,7 +132,7 @@ jobs:
 
       - name: Create Target Servers Iteration
         continue-on-error: true
-        run: cat environments/dev/targetservers.json | jq -c '.[] |
+        run: cat environments/dev/targetservers.json | jq -c '.[]' |
          while read i; do 
          description=$(jq -r ".description" <<< $i);
          name=$(jq -r ".name" <<< $i);  
