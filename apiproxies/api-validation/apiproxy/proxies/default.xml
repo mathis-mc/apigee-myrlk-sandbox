@@ -3,6 +3,9 @@
   <PreFlow name="PreFlow">
     <Request>
       <Step>
+        <Name>VA-Verify</Name>
+      </Step>
+      <Step>
         <Name>RC-CustomerInfo</Name>
       </Step>
     </Request>
