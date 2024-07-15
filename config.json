@@ -4,20 +4,50 @@
         "data": [
             {
                 "port": 80,
-                "name": "Google"
+                "name": "Google",
+                "hostname": "google.com",
+                "ssl": true
             },
             {
                 "port": 443,
-                "name": "Oswald"
+                "name": "Oswald",
+                "hostname": "oswald.com",
+                "ssl": false
             }
         ]
     },
-{
+    {
         "name": "developers", 
         "data": [
             {
-                "name": "john",
-                "email": "john@doe.com"
+                "name": "Toto",
+                "username": "totoDev",
+                "email": "toto@gmail.com"
+            }, 
+            {
+                "name": "Max", 
+                "email": "max@max.man", 
+                "username": "maxDev"
+            }
+        ]
+    },
+    {
+        "name": "apps", 
+        "data": [
+            {
+                "name": "Toto Product",
+                "email": "toto@gmail.com"
+            }
+        ]
+    },
+    {
+        "name": "appProducts", 
+        "data": [
+            {
+                "name": "Toto Product",
+                "displayName": "Toto Product",
+                "proxies": "api-validation",
+                "approval": "auto"
             }
         ]
     }

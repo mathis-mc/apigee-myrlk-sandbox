@@ -115,56 +115,97 @@ jobs:
         run: |
           $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxy -a sa.json --ovr
           
-      - name: Get Target Server
-        continue-on-error: true
-        id: GetTargetServer
-        working-directory: ./apiproxies/api-validation
-        run: | 
-          $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV -a sa.json --no-output >> $GITHUB_OUTPUT
+      # - name: Get Target Server
+      #   continue-on-error: true
+      #   id: GetTargetServer
+      #   working-directory: ./apiproxies/api-validation
+      #   run: | 
+      #     $HOME/.apigeecli/bin/apigeecli targetservers get -n Google -e $DEFAULT_APIGEE_ENV -a sa.json --no-output >> $GITHUB_OUTPUT
           
-      - name: Create Target Server
-        if : ${{steps.GetTargetServer.outcome == 'failure'}}
-        working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
+      # - name: Create Target Server
+      #   if : ${{steps.GetTargetServer.outcome == 'failure'}}
+      #   working-directory: ./apiproxies/api-validation
+      #   run: $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
         
-      - name: Update Target Server
-        if : ${{steps.GetTargetServer.outcome == 'success'}}
-        working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
-        
-      - name: Get App Developer
-        continue-on-error: true
-        id: GetAppDeveloper
-        working-directory: ./apiproxies/api-validation
-        run: | 
-          $HOME/.apigeecli/bin/apigeecli developers get -n toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
-          
-      - name: Create App Developer
-        if : ${{steps.GetAppDeveloper.outcome == 'failure'}}
-        working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli developers create -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
-        
-      - name: Update App Developper
-        if : ${{steps.GetAppDeveloper.outcome == 'success'}}
-        working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli developers update -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
+      # - name: Update Target Server
+      #   if : ${{steps.GetTargetServer.outcome == 'success'}}
+      #   working-directory: ./apiproxies/api-validation
+      #   run: $HOME/.apigeecli/bin/apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
 
-      - name: Create App Product
-        id: CreateAppProduct
+      - name: Create Target Servers Iteration
         working-directory: ./apiproxies/api-validation
-        continue-on-error: true
-        run: $HOME/.apigeecli/bin/apigeecli products create -n "Toto Product" -m "Toto Product" -e $DEFAULT_APIGEE_ENV -p api-validation -f auto -a sa.json
+        run: cat config.json | jq -c '.[] | select (.name == "targetServers")' | jq -c '.data' | jq -c '.[]' |
+         while read i; do 
+         name=$(jq -r ".name" <<< $i);  
+         port=$(jq -r ".port" <<< $i); 
+         host=$(jq -r ".hostname" <<< $i);
+         ssl=$(jq -r ".ssl" <<< $i);
+         $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n $name -e $DEFAULT_APIGEE_ENV -p $port -s $host --tls $ssl ; 
+         done
+      # - name: Get App Developer
+      #   continue-on-error: true
+      #   id: GetAppDeveloper
+      #   working-directory: ./apiproxies/api-validation
+      #   run: | 
+      #     $HOME/.apigeecli/bin/apigeecli developers get -n toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
+          
+      # - name: Create App Developer
+      #   if : ${{steps.GetAppDeveloper.outcome == 'failure'}}
+      #   working-directory: ./apiproxies/api-validation
+      #   run: $HOME/.apigeecli/bin/apigeecli developers create -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
+
+      - name: Create App Developers Iteration
+        working-directory: ./apiproxies/api-validation
+        run: cat config.json | jq -c '.[] | select (.name == "developers")' | jq -c '.data' | jq -c '.[]' |
+         while read i; do 
+         name=$(jq -r ".name" <<< $i);  
+         username=$(jq -r ".username" <<< $i); 
+         email=$(jq -r ".email" <<< $i);
+         $HOME/.apigeecli/bin/apigeecli developers create -a sa.json -n $email -f $name -s Dev -u $username ; 
+         done
         
-      - name: Create App
-        id: CreateApp
-        working-directory: ./apiproxies/api-validation
-        continue-on-error: true
-        run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
+      # - name: Update App Developper
+      #   if : ${{steps.GetAppDeveloper.outcome == 'success'}}
+      #   working-directory: ./apiproxies/api-validation
+      #   run: $HOME/.apigeecli/bin/apigeecli developers update -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
+
+      # - name: Create App Product
+      #   id: CreateAppProduct
+      #   working-directory: ./apiproxies/api-validation
+      #   continue-on-error: true
+      #   run: $HOME/.apigeecli/bin/apigeecli products create -n "Toto Product" -m "Toto Product" -e $DEFAULT_APIGEE_ENV -p api-validation -f auto -a sa.json
         
-      - name: Update App
-        if : ${{steps.CreateApp.outcome == 'failure'}}
+      - name: Create App Products Iteration
+        continue-on-error: true
         working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli apps update -n "Toto App" -p "Toto Product" -e toto@gmail.com -a sa.json
+        run: cat config.json | jq -c '.[] | select (.name == "appProducts")' | jq -c '.data' | jq -c '.[]' |
+         while read i; do 
+         name=$(jq -r ".name" <<< $i);  
+         displayName=$(jq -r ".displayName" <<< $i);
+         proxies=$(jq -r ".proxies" <<< $i);
+         approval=$(jq -r ".approval" <<< $i);
+         $HOME/.apigeecli/bin/apigeecli products create -a sa.json -n $name -m $displayName -f $approval -p $proxies -e $DEFAULT_APIGEE_ENV ; 
+         done
+
+      # - name: Create App
+      #   id: CreateApp
+      #   working-directory: ./apiproxies/api-validation
+      #   continue-on-error: true
+      #   run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
+      
+      - name: Create Apps Iteration
+        continue-on-error: true
+        working-directory: ./apiproxies/api-validation
+        run: cat config.json | jq -c '.[] | select (.name == "apps")' | jq -c '.data' | jq -c '.[]' |
+         while read i; do 
+         name=$(jq -r ".name" <<< $i);  
+         email=$(jq -r ".email" <<< $i);
+         $HOME/.apigeecli/bin/apigeecli apps create -a sa.json -e $email -n $name ; 
+         done
+      # - name: Update App
+      #   if : ${{steps.CreateApp.outcome == 'failure'}}
+      #   working-directory: ./apiproxies/api-validation
+      #   run: $HOME/.apigeecli/bin/apigeecli apps update -n "Toto App" -p "Toto Product" -e toto@gmail.com -a sa.json
   automated-api-tests:
     if: "!contains(github.event.head_commit.message, 'no-test')"
     runs-on: ubuntu-latest
@@ -178,16 +219,6 @@ jobs:
       - name: Run API tests
         run: |
           postman collection run "30932611-3b46f8bc-3bd5-468e-8849-053efee5f632" -e "30932611-836c22b9-3dd3-46e1-9268-fc9175208f98"   
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Mendax Loop through numbers
-      id: loop
-      run: |
-        for i in cat config.json | jq -c '.[]  | select (.name == "developers")' | jq -c '.data' 
-        do
-          echo "Mendax Current number: $i"
-        done
 
 
 
