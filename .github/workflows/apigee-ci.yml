@@ -148,6 +148,12 @@ jobs:
         if : ${{steps.GetAppDeveloper.outcome == 'success'}}
         working-directory: ./apiproxies/api-validation
         run: $HOME/.apigeecli/bin/apigeecli developers update -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
+
+      - name: Create App Product
+        id: CreateAppProduct
+        working-directory: ./apiproxies/api-validation
+        continue-on-error: true
+        run: $HOME/.apigeecli/bin/apigeecli products create -n "Toto Product" -e $DEFAULT_APIGEE_ENV -p api-validation -f auto -a sa.json
         
       - name: Create App
         id: CreateApp
@@ -158,7 +164,7 @@ jobs:
       - name: Update App
         if : ${{steps.CreateApp.outcome == 'failure'}}
         working-directory: ./apiproxies/api-validation
-        run: $HOME/.apigeecli/bin/apigeecli apps update -n "Toto App" -e toto@gmail.com -a sa.json
+        run: $HOME/.apigeecli/bin/apigeecli apps update -n "Toto App" -p "Toto Product" -e toto@gmail.com -a sa.json
   automated-api-tests:
     if: "!contains(github.event.head_commit.message, 'skip-old-ci')"
     runs-on: ubuntu-latest
