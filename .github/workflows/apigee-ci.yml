@@ -181,7 +181,7 @@ jobs:
          displayName=$(jq -r ".displayName" <<< $i);
          proxies=$(jq -r ".proxies" <<< $i);
          approval=$(jq -r ".approval" <<< $i);
-         $HOME/.apigeecli/bin/apigeecli products create -a sa.json -n $name -m $displayName -f $approval -p $proxies -e $DEFAULT_APIGEE_ENV ; 
+         $HOME/.apigeecli/bin/apigeecli products create -a sa.json -n "$name" -m "$displayName" -f $approval -p $proxies -e $DEFAULT_APIGEE_ENV ; 
          done
 
       # - name: Create App
@@ -196,7 +196,8 @@ jobs:
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
          email=$(jq -r ".email" <<< $i);
-         $HOME/.apigeecli/bin/apigeecli apps create -a sa.json -e $email -n $name ; 
+         products=$(jq -r ".products" <<< $i);
+         $HOME/.apigeecli/bin/apigeecli apps create -a sa.json -e $email -n "$name" -p "$products"; 
          done
       # - name: Update App
       #   if : ${{steps.CreateApp.outcome == 'failure'}}

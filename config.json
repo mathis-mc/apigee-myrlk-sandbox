@@ -35,8 +35,9 @@
         "name": "apps", 
         "data": [
             {
-                "name": "Toto Product",
-                "email": "toto@gmail.com"
+                "name": "TotoApp",
+                "email": "toto@gmail.com",
+                "products": "Toto Product"
             }
         ]
     },
