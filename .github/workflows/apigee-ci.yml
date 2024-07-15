@@ -111,7 +111,7 @@ jobs:
 
       - name: Deploy API Proxy Validation
         run: |
-          $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f /apiproxies/api-validation/apiproxy -a sa.json --ovr
+          $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n api-validation -f ./apiproxies/api-validation/apiproxy -a sa.json --ovr
           
       # - name: Get Target Server
       #   continue-on-error: true
