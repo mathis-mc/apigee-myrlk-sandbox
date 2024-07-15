@@ -137,7 +137,7 @@ jobs:
          description=$(jq -r ".description" <<< $i);
          name=$(jq -r ".name" <<< $i);  
          port=$(jq -r ".port" <<< $i); 
-         host=$(jq -r ".hostname" <<< $i);
+         host=$(jq -r ".host" <<< $i);
          ssl=$(jq -r ".tlsInfo | .enabled" <<< $i);
          $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n $name -e $DEFAULT_APIGEE_ENV -p $port -s $host --tls $ssl -d $description; 
          done
