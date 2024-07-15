@@ -178,4 +178,17 @@ jobs:
       - name: Run API tests
         run: |
           postman collection run "30932611-3b46f8bc-3bd5-468e-8849-053efee5f632" -e "30932611-836c22b9-3dd3-46e1-9268-fc9175208f98"   
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Mendax Loop through numbers
+      id: loop
+      run: |
+        for i in cat config.json | jq -c '.[]  | select (.name == "developers")' | jq -c '.data' 
+        do
+          echo "Mendax Current number: $i"
+        done
 
+
+
+          

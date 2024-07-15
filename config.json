@@ -1,0 +1,24 @@
+[
+    {
+        "name": "targetServers",
+        "data": [
+            {
+                "port": 80,
+                "name": "Google"
+            },
+            {
+                "port": 443,
+                "name": "Oswald"
+            }
+        ]
+    },
+{
+        "name": "developers", 
+        "data": [
+            {
+                "name": "john",
+                "email": "john@doe.com"
+            }
+        ]
+    }
+]
