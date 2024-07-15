@@ -131,6 +131,7 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli targetservers update -a sa.json -n Google -e $DEFAULT_APIGEE_ENV -p 80 -s google.com --tls true
 
       - name: Create Target Servers Iteration
+        continue-on-error: true
         run: cat config.json | jq -c '.[] | select (.name == "targetServers")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
@@ -152,6 +153,7 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli developers create -a sa.json -n toto@gmail.com -f Toto -s Dev -u totoDev
 
       - name: Create App Developers Iteration
+        continue-on-error: true
         run: cat config.json | jq -c '.[] | select (.name == "developers")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
@@ -172,6 +174,7 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli products create -n "Toto Product" -m "Toto Product" -e $DEFAULT_APIGEE_ENV -p api-validation -f auto -a sa.json
         
       - name: Create App Products Iteration
+        continue-on-error: true
         run: cat config.json | jq -c '.[] | select (.name == "appProducts")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
@@ -188,6 +191,7 @@ jobs:
       #   run: $HOME/.apigeecli/bin/apigeecli apps create -n "Toto App" -e toto@gmail.com -a sa.json --no-output >> $GITHUB_OUTPUT
       
       - name: Create Apps Iteration
+        continue-on-error: true
         run: cat config.json | jq -c '.[] | select (.name == "apps")' | jq -c '.data' | jq -c '.[]' |
          while read i; do 
          name=$(jq -r ".name" <<< $i);  
