@@ -4,13 +4,19 @@
     "name": "HTTPBin",
     "description": "HTTPBin",
     "host": "httpbin.org",
-    "port": 80
+    "port": 80,
+    "tlsInfo": {
+      "enabled": true
+    }
   },
   {
     "enabled": true,
     "name": "Google",
     "description": "Google",
     "host": "google.com",
-    "port": 80
+    "port": 80,
+    "tlsInfo": {
+      "enabled": false
+    }
   }
 ]

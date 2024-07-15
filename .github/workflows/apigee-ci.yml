@@ -132,13 +132,14 @@ jobs:
 
       - name: Create Target Servers Iteration
         continue-on-error: true
-        run: cat config.json | jq -c '.[] | select (.name == "targetServers")' | jq -c '.data' | jq -c '.[]' |
+        run: cat environments/dev/targetservers.json | jq -c '.[] |
          while read i; do 
+         description=$(jq -r ".description" <<< $i);
          name=$(jq -r ".name" <<< $i);  
          port=$(jq -r ".port" <<< $i); 
          host=$(jq -r ".hostname" <<< $i);
-         ssl=$(jq -r ".ssl" <<< $i);
-         $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n $name -e $DEFAULT_APIGEE_ENV -p $port -s $host --tls $ssl ; 
+         ssl=$(jq -r ".tlsInfo | .enabled" <<< $i);
+         $HOME/.apigeecli/bin/apigeecli targetservers create -a sa.json -n $name -e $DEFAULT_APIGEE_ENV -p $port -s $host --tls $ssl -d $description; 
          done
       # - name: Get App Developer
       #   continue-on-error: true
