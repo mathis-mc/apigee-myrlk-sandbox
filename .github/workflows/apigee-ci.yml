@@ -107,7 +107,7 @@ jobs:
       #     $HOME/.apigeecli/bin/apigeecli apis create bundle -e $DEFAULT_APIGEE_ENV -n my-retail-link-v1 -f ./apiproxy -a sa.json --ovr
 
       - name: apigeelint validation
-        run: ./cli.js -s ./apiproxies/api-validation -f html.js -e PO013,PO025
+        run: ./node_modules/apigeelint/cli.js -s ./apiproxies/api-validation -f html.js -e PO013,PO025
 
       - name: Deploy API Proxy Validation
         run: |
