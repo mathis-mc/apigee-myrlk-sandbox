@@ -14,13 +14,14 @@
       "lint": "./node_modules/apigeelint/cli.js -s ./apiproxy -f html.js -e PO013"
     },
     "dependencies": {
-      "apigeelint": "^2.13.0",
+      "apigeelint": "^2.56.0",
       "eslint": "^7.0.0",
       "eslint-config-google": "^0.14.0",
       "eslint-config-prettier": "^6.11.0",
       "jsonpath-plus": "^5.0.7",
       "prettier": "^2.0.5",
-      "sinon": "^9.0.2"
+      "sinon": "^9.0.2",
+      "@xmldom/xmldom":"^0.9.3"
     }
   }
   
