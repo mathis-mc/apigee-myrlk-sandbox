@@ -1,8 +1,8 @@
 [
   {
     "enabled": true,
-    "name": "TS-MyRetaiLink",
-    "description": "TS-MyRetaiLink",
+    "name": "TS-MyRetailLink",
+    "description": "TS-MyRetailLink",
     "host": "europe-west1-plateforme-fournisseurs-dev.cloudfunctions.net",
     "port": 443,
     "protocol": "HTTP",

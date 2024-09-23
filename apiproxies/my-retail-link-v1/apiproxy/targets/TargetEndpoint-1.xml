@@ -16,7 +16,7 @@
       <Property name="success.codes">1xx,2xx,3xx,500</Property>
     </Properties>
     <LoadBalancer>
-      <Server name="TS-MyRetaiLink"/>
+      <Server name="TS-MyRetailLink"/>
     </LoadBalancer>
     <Path>/tableau-export-endpoint-dev</Path>
   </HTTPTargetConnection>
