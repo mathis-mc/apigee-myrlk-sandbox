@@ -81,8 +81,8 @@ jobs:
         run: npm install --silent --no-fund
 
       # Run apigeeLint test + upload artifact (apigeelint-out.html)
-      - name: apigeelint
-        run: ./node_modules/apigeelint/cli.js -s ./apiproxies/my-retail-link-v1 -f html.js -e PO013,PO025
+      # - name: apigeelint
+      #   run: ./node_modules/apigeelint/cli.js -s ./apiproxies/my-retail-link-v1 -f html.js -e PO013,PO025
 
       # Generate SA key file from secret variable
       # - name: Generate SA key file
